@@ -6,7 +6,7 @@ const interval = {
   val: 500,
 };
 
-export const baseSize = 10;
+export const baseSize = 30;
 let grid;
 
 const start = (size) => {
@@ -26,11 +26,19 @@ const restartGame = () => {
   stopGame();
   start(Number(size.value));
   size.value = baseSize;
+  updateStartButtonState();
 };
 const generate = () => {
   start(Number(size.value));
 };
 
+export const updateStartButtonState = (cells = []) => {
+  const hasAlive = cells.some((cell) => cell.isAlive);
+  const btns = ["btnStart", "increaseGeneration", "btnStop", "btnRestart"];
+  for (const id of btns) {
+    document.getElementById(id).disabled = !hasAlive;
+  }
+};
 export const stopGame = () => {
   clearInterval(interval.id);
 };

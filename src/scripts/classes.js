@@ -1,4 +1,4 @@
-import { stopGame } from "./index.js";
+import { updateStartButtonState, stopGame } from "./index.js";
 
 let cells = [];
 const createEl = (className = "") => {
@@ -43,6 +43,7 @@ export class Grid {
     }
     if (aliveCells === 0) {
       stopGame();
+      updateStartButtonState();
       alert("Цивилизация погибла");
     }
   }
@@ -71,6 +72,7 @@ class Cell {
     this.el.addEventListener("click", (event) => {
       const cell = getCell(x, y, size);
       cell.toggleState(cell);
+      updateStartButtonState(cells);
     });
     this.setNeighbors(size);
   }
