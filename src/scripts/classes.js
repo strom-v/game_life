@@ -6,16 +6,13 @@ const createEl = (className = "") => {
   el.classList.add(className);
   return el;
 };
-const getCells = (width, height) => {
-  cells = new Array(width * height)
+const getCells = (w, h) => {
+  cells = new Array(w * h)
     .fill(null)
-    .map(
-      (_, index) => new Cell(index % width, Math.floor(index / width), width),
-    );
+    .map((_, index) => new Cell(index % w, Math.floor(index / w), w));
 };
-const getCell = (x, y, width) => {
-  const index = y * width + x;
-  return cells[index];
+const getCell = (x, y, w) => {
+  return cells[y * w + x];
 };
 
 export class Grid {

@@ -49,6 +49,12 @@ body {
   padding: 0.3rem;
 }
 
+.wrap-inp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .row {
   display: flex;
   gap: 1px;
@@ -62,20 +68,14 @@ body {
   border-right: 1px solid #ffffff;
 }
 
-.alive {
-  background-color: #000000;
-}
-
-.wrap-inp {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .inp {
   max-width: 10rem;
 }
 
 .btn {
   width: 100%;
+}
+
+.alive {
+  background-color: #000000;
 }

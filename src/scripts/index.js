@@ -43,6 +43,14 @@ export const stopGame = () => {
   clearInterval(interval.id);
 };
 
+size.addEventListener("change", ({ target }) => {
+  if (Number(target.value) < 4) {
+    size.value = 4;
+  }
+  if (Number(target.value) > 1000) {
+    size.value = 1000;
+  }
+});
 document.getElementById("btnGenerate").addEventListener("click", generate);
 document.getElementById("btnRestart").addEventListener("click", restartGame);
 document.getElementById("btnStart").addEventListener("click", startGame);
