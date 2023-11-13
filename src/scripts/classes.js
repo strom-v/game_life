@@ -19,10 +19,9 @@ const getCell = (x, y, width) => {
 };
 
 export class Grid {
-  constructor(width, height, root = "root") {
-    this.width = width;
-    this.height = height;
-    this.cells = getCells(width, height);
+  constructor(size, root = "root") {
+    this.size = size;
+    this.cells = getCells(size, size);
     this.root = document.getElementById(root);
   }
   update() {
@@ -47,19 +46,13 @@ export class Grid {
       alert("Цивилизация погибла");
     }
   }
-  createEl(className = "") {
-    const el = document.createElement("div");
-    el.classList.add(className);
-    return el;
-  }
   render() {
     this.root.innerHTML = null;
     const wrapper = createEl("wrapper");
-    const width = this.width;
-    for (let y = 0; y < this.height; y++) {
+    for (let y = 0; y < this.size; y++) {
       const row = createEl("row");
-      for (let x = 0; x < width; x++) {
-        const cell = getCell(x, y, width);
+      for (let x = 0; x < this.size; x++) {
+        const cell = getCell(x, y, this.size);
         row.appendChild(cell.el);
       }
       wrapper.appendChild(row);
@@ -105,14 +98,5 @@ class Cell {
     cell.isAlive = !cell.isAlive;
     if (cell.isAlive) cell.el.classList.add("alive");
     else cell.el.classList.remove("alive");
-  }
-}
-
-export class Game {
-  constructor(grid) {
-    this.grid = grid;
-  }
-  run() {
-    this.grid.render();
   }
 }

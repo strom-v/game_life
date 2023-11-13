@@ -1,4 +1,4 @@
-import { Grid, Game } from "./classes.js";
+import { Grid } from "./classes.js";
 
 const size = document.getElementById("inpSize");
 const btnGenerate = document.getElementById("btnGenerate");
@@ -11,24 +11,18 @@ const interval = {
 };
 
 export const baseSize = 10;
-export const baseHeight = 10;
-let grid = new Grid(
-  Number(size.value) || baseSize,
-  Number(size.value) || baseSize,
-);
-let game = new Game(grid);
+let grid;
 
-const start = (w, h) => {
-  grid = new Grid(w, h);
-  game = new Game(grid);
-  game.run();
+const start = (size) => {
+  grid = new Grid(size);
+  grid.render();
 };
 
-start(Number(size.value) || baseSize, Number(size.value) || baseSize);
+start(baseSize);
 
 const startGame = () => {
   interval.id = setInterval(() => {
-    game.grid.update();
+    grid.update();
   }, interval.val);
 };
 export const stopGame = () => {
@@ -36,12 +30,12 @@ export const stopGame = () => {
 };
 const restartGame = () => {
   stopGame();
-  start(Number(size.value) || baseSize, Number(size.value) || baseSize);
+  start(Number(size.value));
   size.value = baseSize;
 };
 
 btnGenerate.addEventListener("click", () => {
-  start(Number(size.value) || baseSize, Number(size.value) || baseSize);
+  start(Number(size.value));
 });
 btnRestart.addEventListener("click", restartGame);
 btnStart.addEventListener("click", startGame);
