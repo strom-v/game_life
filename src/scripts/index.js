@@ -24,8 +24,8 @@ const incrGeneration = () => {
 };
 const restartGame = () => {
   stopGame();
-  start(Number(size.value));
   size.value = baseSize;
+  start(baseSize);
   updateStartButtonState();
 };
 const generate = () => {
@@ -34,7 +34,7 @@ const generate = () => {
 
 export const updateStartButtonState = (cells = []) => {
   const hasAlive = cells.some((cell) => cell.isAlive);
-  const btns = ["btnStart", "increaseGeneration", "btnStop", "btnRestart"];
+  const btns = ["btnStart", "increaseGeneration", "btnStop"];
   for (const id of btns) {
     document.getElementById(id).disabled = !hasAlive;
   }

@@ -87,7 +87,7 @@ class Cell {
   countAliveNeighbors() {
     return this.neighbors.reduce(
       (acc, i) => acc + (cells[i].isAlive ? 1 : 0),
-      0
+      0,
     );
   }
   toggleState(cell) {
