@@ -65,26 +65,23 @@ class Cell {
   constructor(x, y, size) {
     this.x = x;
     this.y = y;
+    this.neighbors = [];
     this.isAlive = false;
     this.el = createEl("cell");
     this.el.addEventListener("click", (event) => {
       const cell = getCell(x, y, size);
       cell.toggleState(cell);
     });
+    this.setNeighbors(size);
+  }
+  setNeighbors(size) {
     this.neighbors = [];
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (i === 0 && j === 0) continue;
-        let neighborX = x + i;
-        let neighborY = y + j;
-        if (
-          neighborX >= 0 &&
-          neighborX < size &&
-          neighborY >= 0 &&
-          neighborY < size
-        ) {
-          this.neighbors.push(neighborY * size + neighborX);
-        }
+        let neighborX = (this.x + i + size) % size;
+        let neighborY = (this.y + j + size) % size;
+        this.neighbors.push(neighborY * size + neighborX);
       }
     }
   }
