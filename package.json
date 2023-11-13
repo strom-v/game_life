@@ -5,7 +5,7 @@
   "main": "src/scripts/index.js",
   "type": "module",
   "scripts": {
-    "test": ""
+    "prettier": "npx prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/strom-v/game_life/issues"
   },
-  "homepage": "https://github.com/strom-v/game_life#readme"
+  "homepage": "https://github.com/strom-v/game_life#readme",
+  "dependencies": {
+    "prettier": "^3.1.0"
+  }
 }

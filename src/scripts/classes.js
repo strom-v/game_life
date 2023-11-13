@@ -1,13 +1,118 @@
-export class Grid {
-  constructor(rows, cols) {
-    this.rows = rows;
-    this.cols = cols;
-    this.field = this.createField();
-  }
+import { stopGame } from "./index.js";
 
-  createField() {
-    return new Array(this.rows)
-      .fill(false)
-      .map(() => new Array(this.cols).fill(false));
+let cells = [];
+const createEl = (className = "") => {
+  const el = document.createElement("div");
+  el.classList.add(className);
+  return el;
+};
+const getCells = (width, height) => {
+  cells = new Array(width * height)
+    .fill(null)
+    .map(
+      (_, index) => new Cell(index % width, Math.floor(index / width), width),
+    );
+};
+const getCell = (x, y, width) => {
+  const index = y * width + x;
+  return cells[index];
+};
+
+export class Grid {
+  constructor(width, height, root = "root") {
+    this.width = width;
+    this.height = height;
+    this.cells = getCells(width, height);
+    this.root = document.getElementById(root);
+  }
+  update() {
+    const newStates = new Array(cells.length);
+    let aliveCells = 0;
+    for (let i = 0; i < cells.length; i++) {
+      const cell = cells[i];
+      const aliveNeighbors = cell.countAliveNeighbors();
+      if (cell.isAlive) {
+        newStates[i] = aliveNeighbors === 2 || aliveNeighbors === 3;
+      } else {
+        newStates[i] = aliveNeighbors === 3;
+      }
+      if (newStates[i]) aliveCells++;
+    }
+    for (let i = 0; i < cells.length; i++) {
+      cells[i].isAlive = newStates[i];
+      cells[i].el.classList.toggle("alive", newStates[i]);
+    }
+    if (aliveCells === 0) {
+      stopGame();
+      alert("Цивилизация погибла");
+    }
+  }
+  createEl(className = "") {
+    const el = document.createElement("div");
+    el.classList.add(className);
+    return el;
+  }
+  render() {
+    this.root.innerHTML = null;
+    const wrapper = createEl("wrapper");
+    const width = this.width;
+    for (let y = 0; y < this.height; y++) {
+      const row = createEl("row");
+      for (let x = 0; x < width; x++) {
+        const cell = getCell(x, y, width);
+        row.appendChild(cell.el);
+      }
+      wrapper.appendChild(row);
+    }
+    this.root.appendChild(wrapper);
+  }
+}
+
+class Cell {
+  constructor(x, y, size) {
+    this.x = x;
+    this.y = y;
+    this.isAlive = false;
+    this.el = createEl("cell");
+    this.el.addEventListener("click", (event) => {
+      const cell = getCell(x, y, size);
+      cell.toggleState(cell);
+    });
+    this.neighbors = [];
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if (i === 0 && j === 0) continue;
+        let neighborX = x + i;
+        let neighborY = y + j;
+        if (
+          neighborX >= 0 &&
+          neighborX < size &&
+          neighborY >= 0 &&
+          neighborY < size
+        ) {
+          this.neighbors.push(neighborY * size + neighborX);
+        }
+      }
+    }
+  }
+  countAliveNeighbors() {
+    return this.neighbors.reduce(
+      (acc, index) => acc + (cells[index].isAlive ? 1 : 0),
+      0,
+    );
+  }
+  toggleState(cell) {
+    cell.isAlive = !cell.isAlive;
+    if (cell.isAlive) cell.el.classList.add("alive");
+    else cell.el.classList.remove("alive");
+  }
+}
+
+export class Game {
+  constructor(grid) {
+    this.grid = grid;
+  }
+  run() {
+    this.grid.render();
   }
 }
