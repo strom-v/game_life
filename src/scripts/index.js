@@ -2,9 +2,15 @@ import { Grid } from "./classes.js";
 
 const baseSpeed = 500;
 
+const changeCurrentSpeed = (s) => {
+  currentSpeed.innerHTML = `${Number(s)} ms`;
+};
+
 const size = document.getElementById("inpSize");
 const speed = document.getElementById("speed");
+const currentSpeed = document.getElementById("current-speed");
 speed.value = baseSpeed;
+changeCurrentSpeed(baseSpeed);
 const interval = {
   id: null,
   val: baseSpeed,
@@ -42,6 +48,7 @@ const changeSpeed = ({ target }) => {
   pauseGame();
   speed.value = Number(target.value);
   interval.val = Number(target.value);
+  changeCurrentSpeed(target.value);
   startGame();
 };
 const changeSize = ({ target }) => {

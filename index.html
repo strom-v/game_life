@@ -35,10 +35,14 @@
           <button id="btnPause" class="btn" disabled>Пауза</button>
         </div>
 
-        <div>
-          <label for="speed">Скорость:</label>
+        <div class="wrap-speed">
+          <div>
+            <label for="speed">Скорость:</label>
 
-          <input type="range" id="speed" name="speed" min="500" max="2000" />
+            <input type="range" id="speed" name="speed" min="500" max="2000" />
+          </div>
+
+          <div class="">Текущая скорость: <span id="current-speed" /></div>
         </div>
 
         <button id="increaseGeneration" disabled>+1 Поколение</button>

@@ -23,20 +23,20 @@ export class Grid {
   }
   random() {
     const alivePercentage = 0.25;
-    let aliveCount = 0;
     const totalCells = cells.length;
     const totalAlive = Math.floor(totalCells * alivePercentage);
-    cells.forEach((cell) => {
-      cell.isAlive = false;
-      cell.el.classList.remove("alive");
+    for (let i = 0; i < totalCells; i++) {
+      cells[i].isAlive = false;
+    }
+    const indexesToAlive = new Set();
+    while (indexesToAlive.size < totalAlive) {
+      indexesToAlive.add(Math.floor(Math.random() * totalCells));
+    }
+    indexesToAlive.forEach((index) => {
+      cells[index].isAlive = true;
     });
-    while (aliveCount < totalAlive) {
-      const randomIndex = Math.floor(Math.random() * totalCells);
-      if (!cells[randomIndex].isAlive) {
-        cells[randomIndex].isAlive = true;
-        cells[randomIndex].el.classList.add("alive");
-        aliveCount++;
-      }
+    for (let i = 0; i < totalCells; i++) {
+      cells[i].el.classList.toggle("alive", cells[i].isAlive);
     }
     updateStartButtonState(cells);
   }
