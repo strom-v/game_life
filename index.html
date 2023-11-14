@@ -11,7 +11,7 @@
 
     <div class="controls">
       <div class="controls__top">
-        <span>Размер сетки:</span>
+        <label for="size">Размер сетки:</label>
 
         <input
           id="inpSize"
@@ -20,16 +20,25 @@
           min="4"
           max="1000"
           type="number"
+          name="size"
         />
       </div>
 
       <div class="controls__bottom">
         <button id="btnGenerate">Генерация поля</button>
 
+        <button id="btnRandom">Рандом</button>
+
         <div class="controls__bottom-main">
           <button id="btnStart" class="btn" disabled>Старт</button>
 
-          <button id="btnStop" class="btn" disabled>Пауза</button>
+          <button id="btnPause" class="btn" disabled>Пауза</button>
+        </div>
+
+        <div>
+          <label for="speed">Скорость:</label>
+
+          <input type="range" id="speed" name="speed" min="500" max="2000" />
         </div>
 
         <button id="increaseGeneration" disabled>+1 Поколение</button>

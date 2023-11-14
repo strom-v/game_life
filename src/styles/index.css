@@ -17,6 +17,7 @@ body {
 }
 
 .controls {
+  max-width: 15rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -25,7 +26,7 @@ body {
 .controls__top {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 0.75rem;
 }
 
@@ -66,10 +67,6 @@ body {
   background-color: #dedede;
   padding: 0.1rem;
   border-right: 1px solid #ffffff;
-}
-
-.inp {
-  max-width: 10rem;
 }
 
 .btn {

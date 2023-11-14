@@ -1,9 +1,13 @@
 import { Grid } from "./classes.js";
 
+const baseSpeed = 500;
+
 const size = document.getElementById("inpSize");
+const speed = document.getElementById("speed");
+speed.value = baseSpeed;
 const interval = {
   id: null,
-  val: 500,
+  val: baseSpeed,
 };
 
 export const baseSize = 30;
@@ -23,7 +27,7 @@ const incrGeneration = () => {
   grid.update();
 };
 const restartGame = () => {
-  stopGame();
+  pauseGame();
   size.value = baseSize;
   start(baseSize);
   updateStartButtonState();
@@ -31,32 +35,44 @@ const restartGame = () => {
 const generate = () => {
   start(Number(size.value));
 };
-
-export const updateStartButtonState = (cells = []) => {
-  const hasAlive = cells.some((cell) => cell.isAlive);
-  const btns = ["btnStart", "increaseGeneration", "btnStop"];
-  for (const id of btns) {
-    document.getElementById(id).disabled = !hasAlive;
-  }
+const randomizeCells = () => {
+  grid.random();
 };
-export const stopGame = () => {
-  clearInterval(interval.id);
+const changeSpeed = ({ target }) => {
+  pauseGame();
+  speed.value = Number(target.value);
+  interval.val = Number(target.value);
+  startGame();
 };
-
-size.addEventListener("change", ({ target }) => {
+const changeSize = ({ target }) => {
   if (Number(target.value) < 4) {
     size.value = 4;
   }
   if (Number(target.value) > 1000) {
     size.value = 1000;
   }
-});
+};
+
+export const updateStartButtonState = (cells = []) => {
+  const hasAlive = cells.some((cell) => cell.isAlive);
+  const btns = ["btnStart", "increaseGeneration", "btnPause"];
+  for (const id of btns) {
+    document.getElementById(id).disabled = !hasAlive;
+  }
+};
+export const pauseGame = () => {
+  clearInterval(interval.id);
+};
+
 document.getElementById("btnGenerate").addEventListener("click", generate);
 document.getElementById("btnRestart").addEventListener("click", restartGame);
 document.getElementById("btnStart").addEventListener("click", startGame);
-document.getElementById("btnStop").addEventListener("click", stopGame);
+document.getElementById("btnRandom").addEventListener("click", randomizeCells);
+document.getElementById("btnPause").addEventListener("click", pauseGame);
 document
   .getElementById("increaseGeneration")
   .addEventListener("click", incrGeneration);
+size.addEventListener("change", changeSize);
+speed.addEventListener("change", changeSpeed);
 
 start(baseSize);

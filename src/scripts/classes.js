@@ -1,4 +1,4 @@
-import { updateStartButtonState, stopGame } from "./index.js";
+import { updateStartButtonState, pauseGame } from "./index.js";
 
 let cells = [];
 const createEl = (className = "") => {
@@ -21,6 +21,25 @@ export class Grid {
     this.cells = getCells(size, size);
     this.root = document.getElementById(root);
   }
+  random() {
+    const alivePercentage = 0.25;
+    let aliveCount = 0;
+    const totalCells = cells.length;
+    const totalAlive = Math.floor(totalCells * alivePercentage);
+    cells.forEach((cell) => {
+      cell.isAlive = false;
+      cell.el.classList.remove("alive");
+    });
+    while (aliveCount < totalAlive) {
+      const randomIndex = Math.floor(Math.random() * totalCells);
+      if (!cells[randomIndex].isAlive) {
+        cells[randomIndex].isAlive = true;
+        cells[randomIndex].el.classList.add("alive");
+        aliveCount++;
+      }
+    }
+    updateStartButtonState(cells);
+  }
   update() {
     const newStates = new Array(cells.length);
     let aliveCells = 0;
@@ -39,7 +58,7 @@ export class Grid {
       cells[i].el.classList.toggle("alive", newStates[i]);
     }
     if (aliveCells === 0) {
-      stopGame();
+      pauseGame();
       updateStartButtonState();
       alert("Цивилизация погибла");
     }
